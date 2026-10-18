@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/core/theme/app_colors.dart';
+import 'package:transconnect_driver_app/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key, required this.api});
-  final DriverController api;
+  final AuthController api;
   @override
   Widget build(BuildContext context) => Panel(
     child: Column(
@@ -14,11 +14,11 @@ class AccountScreen extends StatelessWidget {
         const Icon(Icons.account_circle_outlined, size: 48, color: red),
         const SizedBox(height: 16),
         Text(
-          api.user?['fullName'] as String? ?? '',
+          api.user?.fullName ?? '',
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        SelectableText(api.user?['email'] as String? ?? ''),
+        SelectableText(api.user?.email ?? ''),
         const SizedBox(height: 16),
         const Chip(
           avatar: Icon(Icons.verified_outlined),

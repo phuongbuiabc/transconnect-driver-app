@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/core/theme/app_colors.dart';
+import 'package:transconnect_driver_app/features/invitations/presentation/controllers/invitation_controller.dart';
+import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 import 'package:transconnect_driver_app/shared/widgets/notice.dart';
 import 'package:transconnect_driver_app/shared/validation/form_validators.dart';
 
 class InvitationScreen extends StatefulWidget {
-  final DriverController api;
-  const InvitationScreen({super.key, required this.api});
+  final InvitationController api;
+  final bool canAccept;
+  const InvitationScreen({
+    super.key,
+    required this.api,
+    required this.canAccept,
+  });
   @override
   State<InvitationScreen> createState() => _InvitationScreenState();
 }
@@ -37,7 +42,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
         style: TextStyle(color: Color(0xFF66666B), height: 1.5),
       ),
       const SizedBox(height: 24),
-      if (!widget.api.canAccept)
+      if (!widget.canAccept)
         const Notice(
           'Hồ sơ tài xế cần được duyệt trước khi bạn chấp nhận lời mời.',
         )
@@ -97,12 +102,10 @@ class _InvitationScreenState extends State<InvitationScreen> {
               ),
               const SizedBox(height: 12),
               const Text('Mã đơn vị vận tải'),
-              SelectableText(
-                widget.api.receipt!['organizationId'] as String? ?? '',
-              ),
+              SelectableText(widget.api.receipt!.organizationId),
               const SizedBox(height: 12),
               const Text('Mã cộng tác'),
-              SelectableText(widget.api.receipt!['id'] as String? ?? ''),
+              SelectableText(widget.api.receipt!.id),
             ],
           ),
         ),
@@ -110,7 +113,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
     ],
   );
   Future<void> accept() async {
-    if (!form.currentState!.validate()) return;
+    if (busy || !widget.canAccept || !form.currentState!.validate()) return;
     setState(() {
       busy = true;
       error = null;

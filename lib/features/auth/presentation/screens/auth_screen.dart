@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/core/theme/app_colors.dart';
+import 'package:transconnect_driver_app/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 import 'package:transconnect_driver_app/shared/widgets/notice.dart';
 import 'package:transconnect_driver_app/shared/validation/form_validators.dart';
 import 'package:transconnect_driver_app/shared/widgets/brand.dart';
 
 class AuthScreen extends StatefulWidget {
-  final DriverController api;
+  final AuthController api;
   const AuthScreen({super.key, required this.api});
   @override
   State<AuthScreen> createState() => _AuthScreenState();

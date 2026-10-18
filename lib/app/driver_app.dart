@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/app/theme/app_theme.dart';
+import 'package:transconnect_driver_app/shared/theme/app_theme.dart';
 import 'package:transconnect_driver_app/app/navigation/driver_shell.dart';
 
 class DriverApp extends StatelessWidget {

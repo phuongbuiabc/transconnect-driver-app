@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/core/theme/app_colors.dart';
+import 'package:transconnect_driver_app/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 import 'package:transconnect_driver_app/shared/widgets/notice.dart';
 import 'package:transconnect_driver_app/shared/validation/form_validators.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
-  final DriverController api;
+  final AuthController api;
   const EmailVerificationScreen({super.key, required this.api});
   @override
   State<EmailVerificationScreen> createState() =>
@@ -40,7 +40,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           const SizedBox(height: 12),
           Text(
             'Nhập mã được gửi đến ' +
-                (widget.api.user?['email'] as String? ?? '') +
+                (widget.api.user?.email ?? '') +
                 ' để tiếp tục nộp hồ sơ tài xế.',
             style: const TextStyle(height: 1.5),
           ),
@@ -80,7 +80,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     try {
       if (resend) {
         await widget.api.publicAction('resend-verification', {
-          'email': widget.api.user!['email'],
+          'email': widget.api.user!.email,
         });
       } else {
         await widget.api.verify(code.text.trim());

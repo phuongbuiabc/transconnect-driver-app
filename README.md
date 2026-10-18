@@ -30,18 +30,19 @@ Web preview requires backend CORS permitting its origin. Secure storage on web r
 
 ## Layout
 
-- lib/main.dart: entry point; app/: bootstrap, theme, navigation and session coordination.
-- lib/core/: configuration, HTTP, secure storage, errors and brand tokens.
-- lib/features/: auth, account, driver profile and invitation screens/data.
-- lib/shared/: reusable presentation widgets and field validation.
-- test/: mocked HTTP session lifecycle and phone-size UI checks.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the current feature structure and coding rules, and [AGENTS.md](AGENTS.md) for contributor instructions.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for the complete directory map, screen locations, dependency rules and how to add features.
+- `app`: bootstrap, navigation and controller composition.
+- `core`: transport, typed decoding, session lifecycle and secure storage.
+- `features`: typed models, repositories, controllers and presentation.
+- `shared`: theme, reusable widgets and validation.
+- `scripts/Check.ps1`: format check, analyze and tests; optional `-NoRestore`.
 
-For iOS native builds, use macOS with Xcode and configure signing. For Android native builds, install Android SDK/Java and configure signing before distributing. App identifiers are starter com.transconnect values; replace with owned production IDs. The generated launcher artwork is a placeholder.
+Local API defaults: Android native/emulator `http://10.0.2.2:5267`; web/desktop/iOS simulator `http://localhost:5267`. Override with `--dart-define=API_BASE_URL=...` for a real device or deployment. Both apps use the same backend; their account groups and storage keys remain separate.
 
 ## Validation
 
-See .reports/transconnect-frontend/plans/driver-app/00-index.md in the parent workspace for analysis and final validation results. Live backend and email delivery are needed to verify the complete registration-to-approval-to-invitation flow; mocked tests do not replace that verification.
 
-Validated locally: Flutter analyze passed with no issues; all5 tests passed; standard JavaScript web production build succeeded. Web Wasm is not supported by the current secure-storage web dependency. Native Android/iOS builds and live backend/email E2E are not yet verified.
+Foundation verification (18/10/2026): static analysis and 14 tests passed. Tests ran with a writable local copy of the installed Flutter SDK because the agent cannot write the system SDK cache. No native build or live BE/email E2E was performed in this refactor.
+
+Run all checks: `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Check.ps1`.

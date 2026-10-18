@@ -99,9 +99,15 @@ class _DriverShellState extends State<DriverShell> {
                   ] else if (!api.verified)
                     EmailVerificationScreen(api: api)
                   else if (tab == 0)
-                    DriverProfileScreen(api: api)
+                    DriverProfileScreen(
+                      api: api.profiles,
+                      fullName: api.user?.fullName ?? '',
+                    )
                   else if (tab == 1)
-                    InvitationScreen(api: api)
+                    InvitationScreen(
+                      api: api.invitations,
+                      canAccept: api.canAccept,
+                    )
                   else
                     AccountScreen(api: api),
                 ],

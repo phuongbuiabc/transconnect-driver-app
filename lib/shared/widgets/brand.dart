@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transconnect_driver_app/core/theme/app_colors.dart';
+import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 
 class Brand extends StatelessWidget {
   const Brand({super.key});

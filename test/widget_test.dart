@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/core/storage/token_store.dart';
+import 'helpers/memory_token_store.dart';
 import 'package:transconnect_driver_app/app/driver_app.dart';
-
-class MemoryStore implements TokenStore {
-  String? value;
-  @override
-  Future<String?> read() async => value;
-  @override
-  Future<void> write(String v) async {
-    value = v;
-  }
-
-  @override
-  Future<void> clear() async {
-    value = null;
-  }
-}
 
 void main() {
   testWidgets('auth supports Vietnamese onboarding at phone width', (

@@ -6,7 +6,7 @@ import 'package:http/testing.dart';
 import 'package:transconnect_driver_app/app/session/driver_controller.dart';
 import 'package:transconnect_driver_app/core/network/json.dart';
 import 'package:transconnect_driver_app/core/errors/api_exception.dart';
-import 'widget_test.dart' show MemoryStore;
+import 'helpers/memory_token_store.dart';
 
 Json session(String token) => {
   'accessToken': token,
@@ -48,8 +48,8 @@ void main() {
     );
     addTearDown(api.dispose);
     await api.restore();
-    final a = api.request('GET', 'protected');
-    final b = api.request('GET', 'protected');
+    final a = api.session.request('GET', 'protected', decode: decodeObject);
+    final b = api.session.request('GET', 'protected', decode: decodeObject);
     await Future<void>.delayed(const Duration(milliseconds: 20));
     gate.complete();
     await Future.wait([a, b]);
@@ -123,7 +123,11 @@ void main() {
     );
     addTearDown(api.dispose);
     await api.restore();
-    final request = api.request('GET', 'protected');
+    final request = api.session.request(
+      'GET',
+      'protected',
+      decode: decodeObject,
+    );
     final assertion = expectLater(request, throwsA(isA<ApiException>()));
     await entered.future;
     await api.clear();

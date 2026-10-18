@@ -1,14 +1,19 @@
-import 'package:transconnect_driver_app/core/network/api_request.dart';
-import 'package:transconnect_driver_app/core/network/json.dart';
+import '../../../core/network/json.dart';
+import '../../../core/session/session_client.dart';
+import '../models/current_user.dart';
 
 class AuthRepository {
-  AuthRepository(this.request);
-  final ApiRequest request;
-  Future<Json> currentUser() => request('GET', 'auth/me');
-  Future<Json> publicAction(String action, Json body) => request(
+  final SessionClient session;
+  AuthRepository(this.session);
+  Future<CurrentUser> currentUser() =>
+      session.request('GET', 'auth/me', decode: CurrentUser.fromJson);
+  Future<void> authenticate(String action, Json body) =>
+      session.authenticate(action, body);
+  Future<void> publicAction(String action, Json body) => session.request<void>(
     'POST',
     'auth/$action',
-    body: {...body, 'accountGroup': 'Operator'},
+    body: {...body, 'accountGroup': session.accountGroup},
     authenticated: false,
+    decode: (_) {},
   );
 }

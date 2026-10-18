@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:transconnect_driver_app/app/session/driver_controller.dart';
-import 'package:transconnect_driver_app/core/theme/app_colors.dart';
+import 'package:transconnect_driver_app/features/driver_profile/presentation/controllers/driver_profile_controller.dart';
+import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 import 'package:transconnect_driver_app/shared/widgets/notice.dart';
 import 'package:transconnect_driver_app/shared/validation/form_validators.dart';
 
 class DriverProfileScreen extends StatefulWidget {
-  final DriverController api;
-  const DriverProfileScreen({super.key, required this.api});
+  final DriverProfileController api;
+  final String fullName;
+  const DriverProfileScreen({
+    super.key,
+    required this.api,
+    required this.fullName,
+  });
   @override
   State<DriverProfileScreen> createState() => _DriverProfileScreenState();
 }
@@ -20,7 +25,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
   @override
   void initState() {
     super.initState();
-    name.text = widget.api.user?['fullName'] as String? ?? '';
+    name.text = widget.fullName;
   }
 
   @override
@@ -31,14 +36,14 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final driver = widget.api.driver;
-    final status = driver?['reviewStatus'] as String?;
+    final driver = widget.api.profile;
+    final status = driver?.reviewStatus;
     final approved = status == 'Approved', rejected = status == 'Rejected';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Xin chào,\n' + (widget.api.user?['fullName'] as String? ?? 'tài xế'),
+          'Xin chào,\n' + (widget.fullName),
           style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
         ),
         const SizedBox(height: 12),
@@ -116,7 +121,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Text(driver['fullName'] as String? ?? ''),
+                Text(driver.fullName),
                 const SizedBox(height: 16),
                 Notice(
                   approved
@@ -125,17 +130,14 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                       ? 'Vui lòng liên hệ đơn vị vận tải hoặc quản trị nền tảng để được hướng dẫn.'
                       : 'Hồ sơ đã được tiếp nhận. Kéo xuống để cập nhật kết quả xét duyệt.',
                 ),
-                if ((driver['reviewNote'] as String? ?? '').isNotEmpty) ...[
+                if ((driver.reviewNote ?? '').isNotEmpty) ...[
                   const SizedBox(height: 20),
                   const Text(
                     'Ghi chú xét duyệt',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    driver['reviewNote'] as String,
-                    style: const TextStyle(height: 1.5),
-                  ),
+                  Text(driver.reviewNote!, style: const TextStyle(height: 1.5)),
                 ],
               ],
             ),

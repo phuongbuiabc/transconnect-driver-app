@@ -1,9 +1,13 @@
-import 'package:transconnect_driver_app/core/network/api_request.dart';
-import 'package:transconnect_driver_app/core/network/json.dart';
+import '../../../core/session/session_client.dart';
+import '../models/engagement.dart';
 
 class InvitationRepository {
-  InvitationRepository(this.request);
-  final ApiRequest request;
-  Future<Json> accept(String token) =>
-      request('POST', 'drivers/invitations/accept', body: {'token': token});
+  final SessionClient session;
+  InvitationRepository(this.session);
+  Future<Engagement> accept(String token) => session.request(
+    'POST',
+    'drivers/invitations/accept',
+    body: {'token': token},
+    decode: Engagement.fromJson,
+  );
 }
