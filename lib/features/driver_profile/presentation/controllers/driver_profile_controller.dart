@@ -24,7 +24,9 @@ class DriverProfileController extends ChangeNotifier {
 
   Future<void> submit(String fullName) async {
     final started = ++_revision;
-    final value = await repository.submit(fullName);
+    final value = _profile?.reviewStatus == 'Rejected'
+        ? await repository.resubmit(fullName)
+        : await repository.submit(fullName);
     if (started != _revision) return;
     _profile = value;
     notifyListeners();

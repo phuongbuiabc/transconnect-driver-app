@@ -34,6 +34,8 @@ scripts/Check.ps1
 
 ## Ranh giới code
 
+Cập nhật 20/10: account/EditAccountScreen dùng AuthController/AuthRepository cho profile/password/avatar, picker image_picker 1.2.2 chỉ ở UI; core transport/session hỗ trợ multipart/binary với guard generation/refresh. driver_profile chọn submit hay resubmit theo trạng thái Rejected. Feature foundation có models/repository/controller/screen cho liên hệ/lịch sử/cộng tác/lời mời/giấy demo; app/DriverController sở hữu, clear khi logout và dispose, DriverShell compose route. Feature khác không tự tạo session/HTTP. Giấy giả vẫn NOT_VERIFIED; iOS có gallery usage text, chưa nghiệm thu device/live.
+
 - Luồng feature: screen → controller → repository → SessionClient → ApiClient. Screen chỉ giữ state trình bày/form, không gọi HTTP hay secure storage. JSON thô chỉ ở biên API/form request; user/profile/receipt dùng model typed.
 - `app` là composition root: tạo, truyền và dispose dependency; điều phối liên feature. `core` không import app/features/shared; shared UI không import app/features. Repository không biết widget/controller.
 - AuthController là API công khai của feature auth, được account/home sử dụng cho phiên hiện tại; OTP là UI công khai của auth. Các feature nghiệp vụ không import implementation/controller của nhau. Phối hợp profile và invitations qua app composition.

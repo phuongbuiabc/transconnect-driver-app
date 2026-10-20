@@ -29,8 +29,12 @@ class ApiClient {
     String method,
     String path,
     Json? body,
-    String? token,
-  ) async {
+    String? token, {
+    List<int>? fileBytes,
+    String? fileName,
+    Map<String, String> fields = const {},
+    bool binary = false,
+  }) async {
     final relative = Uri.parse(path);
     if (relative.hasScheme || relative.hasAuthority || relative.hasFragment) {
       throw ArgumentError(
@@ -38,17 +42,32 @@ class ApiClient {
       );
     }
     try {
-      final response = await client
-          .send(
-            http.Request(method, base.resolve(path))
-              ..headers.addAll({
-                'Accept': 'application/json',
-                if (body != null) 'Content-Type': 'application/json',
-                if (token != null) 'Authorization': 'Bearer $token',
-              })
-              ..body = body == null ? '' : jsonEncode(body),
-          )
-          .timeout(timeout);
+      final http.BaseRequest outgoing;
+      if (fileBytes != null) {
+        outgoing = http.MultipartRequest(method, base.resolve(path))
+          ..fields.addAll(fields)
+          ..files.add(
+            http.MultipartFile.fromBytes(
+              'file',
+              fileBytes,
+              filename: fileName ?? 'upload',
+            ),
+          );
+      } else {
+        outgoing = http.Request(method, base.resolve(path))
+          ..headers.addAll({
+            if (body != null) 'Content-Type': 'application/json',
+          })
+          ..body = body == null ? '' : jsonEncode(body);
+      }
+      outgoing.headers.addAll({
+        'Accept': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      });
+      final response = await client.send(outgoing).timeout(timeout);
+      if (binary && response.statusCode >= 200 && response.statusCode < 300) {
+        return await response.stream.toBytes().timeout(timeout);
+      }
       final raw = await response.stream.bytesToString().timeout(timeout);
       Json envelope;
       try {

@@ -52,7 +52,9 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
           style: TextStyle(color: Color(0xFF66666B), height: 1.5),
         ),
         const SizedBox(height: 24),
-        if (driver == null)
+        if (rejected && driver?.reviewNote != null)
+          Notice(driver!.reviewNote!, failure: true),
+        if (driver == null || rejected)
           Panel(
             child: Form(
               key: form,

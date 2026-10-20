@@ -9,11 +9,14 @@ import '../../features/driver_profile/models/driver_profile.dart';
 import '../../features/driver_profile/presentation/controllers/driver_profile_controller.dart';
 import '../../features/invitations/data/invitation_repository.dart';
 import '../../features/invitations/presentation/controllers/invitation_controller.dart';
+import '../../features/foundation/data/foundation_repository.dart';
+import '../../features/foundation/presentation/controllers/foundation_controller.dart';
 
 /// Composition of independent auth, profile and invitation controllers.
 class DriverController extends AuthController {
   late final DriverProfileController profiles;
   late final InvitationController invitations;
+  late final FoundationController foundation;
   DriverController({
     required String baseUrl,
     http.Client? client,
@@ -27,6 +30,7 @@ class DriverController extends AuthController {
        ) {
     profiles = DriverProfileController(DriverProfileRepository(session))
       ..addListener(changed);
+    foundation = FoundationController(FoundationRepository(session));
     invitations = InvitationController(InvitationRepository(session))
       ..addListener(changed);
   }
@@ -37,6 +41,7 @@ class DriverController extends AuthController {
     if (!signedIn) {
       profiles.clear();
       invitations.clear();
+      foundation.clear();
     }
     super.sessionChanged();
   }
@@ -66,6 +71,7 @@ class DriverController extends AuthController {
     invitations.removeListener(changed);
     profiles.dispose();
     invitations.dispose();
+    foundation.dispose();
     super.dispose();
   }
 }

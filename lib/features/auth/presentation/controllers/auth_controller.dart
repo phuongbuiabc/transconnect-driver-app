@@ -63,6 +63,26 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<void> logout() => session.logout();
+  Future<void> uploadAvatar(List<int> bytes, String fileName) async {
+    final started = session.generation;
+    await auth.uploadAvatar(bytes, fileName);
+    if (started == session.generation && !_disposed) await load();
+  }
+
+  Future<void> updateProfile(String name, String phone) async {
+    final started = session.generation;
+    final value = await auth.updateProfile(name, phone);
+    if (started != session.generation || _disposed) return;
+    _user = value;
+    changed();
+  }
+
+  Future<void> changePassword(String current, String next) async {
+    final started = session.generation;
+    await auth.changePassword(current, next);
+    if (started == session.generation) await clear();
+  }
+
   Future<void> clear() => session.clear();
 
   @override

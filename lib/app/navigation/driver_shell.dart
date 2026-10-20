@@ -8,6 +8,7 @@ import 'package:transconnect_driver_app/features/auth/presentation/screens/email
 import 'package:transconnect_driver_app/features/driver_profile/presentation/screens/driver_profile_screen.dart';
 import 'package:transconnect_driver_app/features/invitations/presentation/screens/invitation_screen.dart';
 import 'package:transconnect_driver_app/features/account/presentation/screens/account_screen.dart';
+import 'package:transconnect_driver_app/features/foundation/presentation/screens/foundation_screen.dart';
 
 class DriverShell extends StatefulWidget {
   final DriverController api;
@@ -89,6 +90,19 @@ class _DriverShellState extends State<DriverShell> {
                     ],
                   ),
                   const SizedBox(height: 28),
+                  if (api.verified && api.driver != null)
+                    OutlinedButton.icon(
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => FoundationScreen(
+                            controller: api.foundation,
+                            driverId: api.driver!.id,
+                          ),
+                        ),
+                      ),
+                      icon: const Icon(Icons.folder_shared_outlined),
+                      label: const Text('Liên hệ, cộng tác và giấy tờ demo'),
+                    ),
                   if (error != null) ...[
                     Notice(error!, failure: true),
                     const SizedBox(height: 20),

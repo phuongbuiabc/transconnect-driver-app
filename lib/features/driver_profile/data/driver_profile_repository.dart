@@ -4,6 +4,12 @@ import '../models/driver_profile.dart';
 class DriverProfileRepository {
   final SessionClient session;
   DriverProfileRepository(this.session);
+  Future<DriverProfile> resubmit(String fullName) => session.request(
+    'POST',
+    'drivers/me/resubmit',
+    body: {'fullName': fullName},
+    decode: DriverProfile.fromJson,
+  );
   Future<DriverProfile> current() =>
       session.request('GET', 'drivers/me', decode: DriverProfile.fromJson);
   Future<DriverProfile> submit(String fullName) => session.request(

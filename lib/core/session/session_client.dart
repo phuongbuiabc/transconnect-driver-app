@@ -92,6 +92,10 @@ class SessionClient extends ChangeNotifier {
     String path, {
     required Decoder<T> decode,
     Json? body,
+    List<int>? fileBytes,
+    String? fileName,
+    Map<String, String> fields = const {},
+    bool binary = false,
     bool authenticated = true,
   }) async {
     final started = _generation;
@@ -106,6 +110,10 @@ class SessionClient extends ChangeNotifier {
         path,
         body,
         authenticated ? token : null,
+        fileBytes: fileBytes,
+        fileName: fileName,
+        fields: fields,
+        binary: binary,
       );
     } on ApiException catch (error) {
       if (!authenticated || error.status != 401 || started != _generation) {
@@ -115,7 +123,16 @@ class SessionClient extends ChangeNotifier {
       _assertCurrent(started);
       final retryToken = _session!.accessToken;
       try {
-        result = await transport.send(method, path, body, retryToken);
+        result = await transport.send(
+          method,
+          path,
+          body,
+          retryToken,
+          fileBytes: fileBytes,
+          fileName: fileName,
+          fields: fields,
+          binary: binary,
+        );
       } on ApiException catch (retryError) {
         if (retryError.status == 401 &&
             started == _generation &&

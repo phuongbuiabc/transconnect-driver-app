@@ -1,6 +1,6 @@
 # TransConnect Driver
 
-Independent Flutter repository for driver onboarding and organization collaboration. Android, iOS, and web preview scaffolds are included. No Git repository or remote is initialized.
+Independent Flutter repository for driver onboarding and organization collaboration. Android, iOS, and web preview scaffolds are included. No remote is required for local development.
 
 ## Implemented
 
@@ -10,7 +10,11 @@ Independent Flutter repository for driver onboarding and organization collaborat
 - Approved-driver invitation token acceptance and server receipt.
 - Vietnamese Material 3 UI using VIEGO crimson/gold and grouped light surfaces.
 
-Backend source is authoritative: only fullName is accepted for driver submission. Rejected profiles have no resubmit API. Trips, maps, earnings, document uploads, and a self-service engagement list are not implemented by the backend. The acceptance receipt is in-memory for the current session and is not a persisted engagement directory.
+Updated 20/10: Rejected profiles can edit the name and resubmit, keeping DriverId/review history. Account supports display name/phone, current-password change and gallery avatar through the backend/Cloudinary. The “Liên hệ, cộng tác và giấy tờ demo” screen restores contact/collaborations/invitations/history from BE, supports ending accepted collaborations and synthetic GPLX image versions with simulated processing/review, private preview and deletion.
+
+Submission still accepts fullName only; account display name and driver identity/contact remain separate. Driver functions require an approved profile. Trips/maps/earnings and real compliance are not implemented. Demo papers require Development ComplianceDemo/storage, remain NOT_VERIFIED and do not approve the driver. Cloudinary secrets belong only in BE configuration; image_picker 1.2.2 is used for gallery selection with iOS usage text. Reference: [image_picker](https://pub.dev/packages/image_picker/versions/1.2.2).
+
+See [current test](../../TransConnect-Backend/docs/current-test.md) and [tracker](../../TransConnect-Docs/00-project/progress-tracker.md#closure-implementation-20-10). Automated checks do not establish device/browser, SQL Server/mailbox/cloud storage acceptance.
 
 ## Run
 
