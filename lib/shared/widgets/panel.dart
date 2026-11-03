@@ -6,11 +6,11 @@ class Panel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     width: double.infinity,
-    padding: const EdgeInsets.all(24),
+    padding: const EdgeInsets.all(20),
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(24),
-      border: Border.all(color: const Color(0xFFE5E5EA)),
+      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
     ),
     child: child,
   );

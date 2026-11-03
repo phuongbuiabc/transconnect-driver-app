@@ -58,3 +58,9 @@ Cập nhật 20/10: account/EditAccountScreen dùng AuthController/AuthRepositor
 Chạy `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Check.ps1`; thêm `-NoRestore` khi cache đầy đủ. Script fail ngay khi format/analyze/test lỗi. Test API dùng MockClient + TokenStore; test widget kiểm tra màn hình hẹp. Native build, HTTP live, DB/email và nghiệm thu UX phải kiểm chứng riêng.
 
 Thêm feature: chốt contract/quyền theo Docs → model/repository → controller → screen/widget → nối route ở app → test request/state và UI liên quan. Chỉ thêm domain/use case khi có logic phức tạp thực tế.
+
+## FE-APPS-06 — 01/11/2026
+
+`features/places` sở hữu TransportPlace (id/version/lat/lon), PlacesRepository và PlacesController; shell chỉ compose màn hình/điều hướng. Tra cứu authenticated `/locations/shared` qua SessionClient, guard revision/generation và dispose; không thêm booking API. `shared/widgets/map_actions.dart` chỉ tạo URI WGS84 và mở ứng dụng ngoài, không HTTP/token. `AdaptiveScaffold` dùng Material NavigationBar dưới 720dp, NavigationRail từ 720dp. Theme light/dark theo hệ thống, đỏ/vàng VieGo. Source độc lập mỗi repo, không import chéo.
+
+`tool/preview.dart` chỉ là entrypoint visual fixture riêng (`flutter run -t tool/preview.dart`), production vẫn `lib/main.dart`; không dùng fixture để nghiệm thu API/live data.

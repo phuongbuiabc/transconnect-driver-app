@@ -4,24 +4,26 @@ import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 class Brand extends StatelessWidget {
   const Brand({super.key});
   @override
-  Widget build(BuildContext context) => const Row(
+  Widget build(BuildContext context) => Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      CircleAvatar(
+      const CircleAvatar(
         backgroundColor: red,
         child: Icon(Icons.route, color: gold),
       ),
-      SizedBox(width: 10),
+      const SizedBox(width: 10),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'TransConnect',
+          const Text(
+            'VieGo',
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
           ),
           Text(
             'DRIVER',
-            style: TextStyle(fontSize: 10, letterSpacing: 3, color: red),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
         ],
       ),

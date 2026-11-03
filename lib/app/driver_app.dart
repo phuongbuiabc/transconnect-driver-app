@@ -9,12 +9,14 @@ class DriverApp extends StatelessWidget {
   const DriverApp({super.key, required this.api});
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'TransConnect Driver',
+    title: 'VieGo Driver',
     debugShowCheckedModeBanner: false,
     locale: const Locale('vi'),
     supportedLocales: const [Locale('vi')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
     theme: buildAppTheme(),
+    darkTheme: buildAppTheme(brightness: Brightness.dark),
+    themeMode: ThemeMode.system,
     home: DriverShell(api: api),
   );
 }

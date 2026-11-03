@@ -30,9 +30,13 @@ class AccountScreen extends StatelessWidget {
         const SizedBox(height: 12),
         SelectableText(api.user?.email ?? ''),
         const SizedBox(height: 16),
-        const Chip(
-          avatar: Icon(Icons.verified_outlined),
-          label: Text('Email đã xác thực'),
+        Chip(
+          avatar: Icon(
+            api.verified ? Icons.verified_outlined : Icons.mail_outline,
+          ),
+          label: Text(
+            api.verified ? 'Email đã xác thực' : 'Email chưa xác thực',
+          ),
         ),
       ],
     ),

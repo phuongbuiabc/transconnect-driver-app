@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:transconnect_driver_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 import 'package:transconnect_driver_app/shared/widgets/notice.dart';
 import 'package:transconnect_driver_app/shared/validation/form_validators.dart';
@@ -52,34 +51,12 @@ class _AuthScreenState extends State<AuthScreen> {
             children: [
               const Brand(),
               const SizedBox(height: 32),
-              Container(
-                padding: const EdgeInsets.all(26),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFE52027), Color(0xFFC01218)],
-                  ),
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.local_shipping_outlined, color: gold, size: 48),
-                    SizedBox(height: 22),
-                    Text(
-                      'Vững tay lái.\nKết nối hành trình.',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        height: 1.2,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'Ứng dụng tài xế trong mạng lưới vận tải TransConnect.',
-                      style: TextStyle(color: Colors.white, height: 1.5),
-                    ),
-                  ],
+              const Text(
+                'Điểm đến rõ ràng. Vững tay lái.',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  height: 1.2,
                 ),
               ),
               const SizedBox(height: 24),

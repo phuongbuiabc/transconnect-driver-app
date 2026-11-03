@@ -50,3 +50,9 @@ Local API defaults: Android native/emulator `http://10.0.2.2:5267`; web/desktop/
 Foundation verification (18/10/2026): static analysis and 14 tests passed. Tests ran with a writable local copy of the installed Flutter SDK because the agent cannot write the system SDK cache. No native build or live BE/email E2E was performed in this refactor.
 
 Run all checks: `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Check.ps1`.
+
+## Tìm địa điểm và giao diện — 01/11/2026
+
+Màn hình Địa điểm tìm tên/địa chỉ trong danh mục VieGo công bố, xem chi tiết/tọa độ và mở Google Maps/chỉ đường/ứng dụng khác. Giữ nghiệp vụ tài khoản hiện có; chưa mở đặt/nhận chuyến. Tọa độ không đổi khi tạo link; ứng dụng bản đồ quyết định đường đi.
+
+Android: navigation bar cho điện thoại, rail cho màn hình rộng, light/dark theo hệ thống. Kiểm tra `powershell -ExecutionPolicy Bypass -File scripts/Check.ps1`; chạy thực `flutter run`, preview fixture riêng `flutter run -t tool/preview.dart`. Xem tracker Docs để biết bằng chứng và giới hạn live/iOS.

@@ -1,4 +1,7 @@
-import 'dart:ui';
+import '../../shared/widgets/adaptive_scaffold.dart';
+import '../../features/places/data/places_repository.dart';
+import '../../features/places/presentation/controllers/places_controller.dart';
+import '../../features/places/presentation/screens/places_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:transconnect_driver_app/app/session/driver_controller.dart';
 import 'package:transconnect_driver_app/shared/widgets/brand.dart';
@@ -21,6 +24,7 @@ class _DriverShellState extends State<DriverShell> {
   bool starting = true;
   String? error;
   int tab = 0;
+  late final places = PlacesController(PlacesRepository(widget.api.session));
   @override
   void initState() {
     super.initState();
@@ -30,6 +34,7 @@ class _DriverShellState extends State<DriverShell> {
 
   @override
   void dispose() {
+    places.dispose();
     widget.api.removeListener(changed);
     super.dispose();
   }
@@ -63,11 +68,25 @@ class _DriverShellState extends State<DriverShell> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     if (!api.signedIn) return AuthScreen(api: api);
-    return Scaffold(
+    return AdaptiveScaffold(
+      selectedIndex: tab,
+      onSelected: (value) => setState(() => tab = value),
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.travel_explore),
+          label: 'Địa điểm',
+        ),
+        NavigationDestination(icon: Icon(Icons.badge_outlined), label: 'Hồ sơ'),
+        NavigationDestination(icon: Icon(Icons.mail_outline), label: 'Lời mời'),
+        NavigationDestination(
+          icon: Icon(Icons.person_outline),
+          label: 'Tài khoản',
+        ),
+      ],
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 620),
+            constraints: const BoxConstraints(maxWidth: 760),
             child: RefreshIndicator(
               onRefresh: reload,
               child: ListView(
@@ -90,7 +109,7 @@ class _DriverShellState extends State<DriverShell> {
                     ],
                   ),
                   const SizedBox(height: 28),
-                  if (api.verified && api.driver != null)
+                  if (tab != 0 && api.verified && api.driver != null)
                     OutlinedButton.icon(
                       onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
@@ -107,53 +126,25 @@ class _DriverShellState extends State<DriverShell> {
                     Notice(error!, failure: true),
                     const SizedBox(height: 20),
                   ],
-                  if (!api.profileLoaded) ...[
+                  if (tab == 0)
+                    PlacesScreen(controller: places)
+                  else if (!api.profileLoaded) ...[
                     const Notice('Chưa tải được hồ sơ. Vui lòng thử lại.'),
                     TextButton(onPressed: reload, child: const Text('Tải lại')),
                   ] else if (!api.verified)
                     EmailVerificationScreen(api: api)
-                  else if (tab == 0)
+                  else if (tab == 1)
                     DriverProfileScreen(
                       api: api.profiles,
                       fullName: api.user?.fullName ?? '',
                     )
-                  else if (tab == 1)
+                  else if (tab == 2)
                     InvitationScreen(
                       api: api.invitations,
                       canAccept: api.canAccept,
                     )
                   else
                     AccountScreen(api: api),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-              child: NavigationBar(
-                backgroundColor: Colors.white.withValues(alpha: .90),
-                selectedIndex: tab,
-                onDestinationSelected: (v) => setState(() => tab = v),
-                destinations: const [
-                  NavigationDestination(
-                    icon: Icon(Icons.badge_outlined),
-                    label: 'Hồ sơ',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.mail_outline),
-                    label: 'Lời mời',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.person_outline),
-                    label: 'Tài khoản',
-                  ),
                 ],
               ),
             ),
