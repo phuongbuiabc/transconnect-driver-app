@@ -1,22 +1,31 @@
 import '../../../core/network/json.dart';
+import '../../../shared/format.dart';
 
 class Collaboration {
-  final String id, organizationId, organizationName;
+  final String id, organizationId, organizationName, expiresAt;
   final String? acceptedAt, endedAt, revokedAt;
   const Collaboration(
     this.id,
     this.organizationId,
     this.organizationName,
+    this.expiresAt,
     this.acceptedAt,
     this.endedAt,
     this.revokedAt,
   );
+  bool get active => acceptedAt != null && endedAt == null && revokedAt == null;
+  bool pendingAt(DateTime now) =>
+      acceptedAt == null &&
+      endedAt == null &&
+      revokedAt == null &&
+      (parseServerTime(expiresAt)?.isAfter(now) ?? false);
   factory Collaboration.fromJson(Object? value) {
     final json = decodeObject(value);
     return Collaboration(
       requiredString(json, 'id'),
       requiredString(json, 'organizationId'),
       requiredString(json, 'organizationName'),
+      requiredString(json, 'expiresAt'),
       json['acceptedAt'] as String?,
       json['endedAt'] as String?,
       json['revokedAt'] as String?,
@@ -35,6 +44,11 @@ class ReceivedInvitation {
     this.acceptedAt,
     this.revokedAt,
   );
+  bool pendingAt(DateTime now) =>
+      role == 'Driver' &&
+      acceptedAt == null &&
+      revokedAt == null &&
+      (parseServerTime(expiresAt)?.isAfter(now) ?? false);
   factory ReceivedInvitation.fromJson(Object? value) {
     final json = decodeObject(value);
     return ReceivedInvitation(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:transconnect_driver_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:transconnect_driver_app/shared/theme/app_colors.dart';
 import 'package:transconnect_driver_app/shared/widgets/panel.dart';
 import 'package:transconnect_driver_app/shared/widgets/notice.dart';
 import 'package:transconnect_driver_app/shared/validation/form_validators.dart';
@@ -31,11 +30,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.mark_email_unread_outlined, size: 48, color: red),
-          const SizedBox(height: 20),
           const Text(
             'Xác thực email',
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           Text(

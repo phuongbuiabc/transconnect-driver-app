@@ -79,6 +79,8 @@ class FoundationController extends ChangeNotifier {
 
   Future<void> updateContact(String id, String phone, String address) =>
       run(id, () => repository.updateContact(phone, address));
+  Future<void> acceptInvitation(String driverId, String invitationId) =>
+      run(driverId, () => repository.acceptInvitation(invitationId));
   Future<void> end(String id, Collaboration item) =>
       run(id, () => repository.end(item));
   Future<void> upload(String id, List<int> bytes, String name) =>

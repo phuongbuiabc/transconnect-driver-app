@@ -34,6 +34,12 @@ class FoundationRepository {
         body: {'contactPhone': phone, 'contactAddress': address},
         decode: (_) {},
       );
+  Future<void> acceptInvitation(String id) => session.request<void>(
+    'POST',
+    'drivers/invitations/$id/accept',
+    body: const <String, Object?>{},
+    decode: (_) {},
+  );
   Future<void> end(Collaboration item) => session.request<void>(
     'DELETE',
     'organizations/${item.organizationId}/drivers/${item.id}',

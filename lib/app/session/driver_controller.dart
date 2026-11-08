@@ -30,7 +30,8 @@ class DriverController extends AuthController {
        ) {
     profiles = DriverProfileController(DriverProfileRepository(session))
       ..addListener(changed);
-    foundation = FoundationController(FoundationRepository(session));
+    foundation = FoundationController(FoundationRepository(session))
+      ..addListener(changed);
     invitations = InvitationController(InvitationRepository(session))
       ..addListener(changed);
   }
@@ -59,6 +60,13 @@ class DriverController extends AuthController {
         profiles.clear();
       }
       if (started != session.generation) return;
+      final id = driver?.id;
+      if (id == null) {
+        foundation.clear();
+      } else {
+        await foundation.load(id);
+      }
+      if (started != session.generation) return;
       profileLoaded = true;
     } finally {
       changed();
@@ -69,6 +77,7 @@ class DriverController extends AuthController {
   void dispose() {
     profiles.removeListener(changed);
     invitations.removeListener(changed);
+    foundation.removeListener(changed);
     profiles.dispose();
     invitations.dispose();
     foundation.dispose();
