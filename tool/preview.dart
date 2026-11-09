@@ -101,6 +101,16 @@ void main() {
             'endedAt': null,
             'revokedAt': null,
           },
+          if (accepted.contains('fixture-email'))
+            {
+              'id': 'fixture-from-email',
+              'organizationId': 'fixture-org-2',
+              'organizationName': 'Nhà xe minh họa B',
+              'expiresAt': later,
+              'acceptedAt': server(DateTime.now().toUtc()),
+              'endedAt': null,
+              'revokedAt': null,
+            },
           {
             'id': 'fixture-ended',
             'organizationId': 'fixture-org-3',
